@@ -53,19 +53,19 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-book-open"></i>
                     <span>Buku Tamu</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-file-alt"></i>
                     <span>Laporan</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>User</span></a>
             </li>
             <!-- Divider -->
