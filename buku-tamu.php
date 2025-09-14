@@ -3,7 +3,7 @@ require_once('function.php');
 include_once('templates/header.php');
 ?>
 
-<!-- Begin Page Content -->
+<!--a Begin Page Content -->
 <div class="container-fluid">
 
   <!-- Page Heading -->
@@ -13,13 +13,13 @@ include_once('templates/header.php');
   if (isset($_POST['simpan'])) {
     if (tambah_tamu($_POST) > 0) {
   ?>
-      <div class="alert alert-success" role="alert">
+      <div class="alert alert-success">
         Data berhasil disimpan!
       </div>
     <?php
     } else {
     ?>
-      <div class="alert alert-danger" role="alert">
+      <div class="alert alert-danger">
         Data gagal disimpan!
       </div>
   <?php
@@ -27,6 +27,7 @@ include_once('templates/header.php');
   }
   ?>
 
+  <!-- DataTales Example -->
   <div class="card shadow mb-4">
     <div class="card-header py-3">
       <button type="button" class="btn btn-primary btn-icon-split" data-toggle="modal" data-target="#tambahModal">
@@ -46,26 +47,27 @@ include_once('templates/header.php');
               <th>Nama Tamu</th>
               <th>Alamat</th>
               <th>No. Telp/HP</th>
-              <th>Bertemu Dengan</th>
+              <th>Bertemu dg.</th>
               <th>Kepentingan</th>
               <th>Aksi</th>
             </tr>
           </thead>
-
           <tbody>
             <?php
-            $no = 1;
-            $bukutamu = query("SELECT * FROM bukutamu");
-            foreach ($bukutamu as $tamu) : ?>
-              <tr>
-                <td><?= $no++; ?></td>
-                <td><?= $tamu['tanggal'] ?></td>
-                <td><?= $tamu['nama_tamu'] ?></td>
-                <td><?= $tamu['alamat'] ?></td>
-                <td><?= $tamu['no_hp'] ?></td>
-                <td><?= $tamu['bertemu'] ?></td>
-                <td><?= $tamu['kepentingan'] ?></td>
-                <td><button class="btn btn-success" type="button">Ubah</button>
+              $no = 1;
+
+              $buku_tamu = query("SELECT * FROM buku_tamu");
+              foreach ($buku_tamu as $tamu) : ?>
+               <tr>
+                 <td><?= $no++; ?></td>
+                 <td><?= $tamu['tanggal'] ?></td>
+                 <td><?= $tamu['nama_tamu'] ?></td>
+                 <td><?= $tamu['alamat'] ?></td>
+                 <td><?= $tamu['no_hp'] ?></td>
+                 <td><?= $tamu['bertemu'] ?></td>
+                 <td><?= $tamu['kepentingan'] ?></td>
+                 <td>
+                  <a class="btn btn-success" href="edit-tamu.php?id=<?= $tamu['id_tamu'] ?>">Ubah</a>
                   <button class="btn btn-danger" type="button">Hapus</button>
                 </td>
               </tr>
@@ -75,19 +77,23 @@ include_once('templates/header.php');
       </div>
     </div>
   </div>
+</div>
 
 </div>
 <!-- /.container-fluid -->
-
 <?php
-$query = mysqli_query($koneksi, "SELECT max(id_tamu) as kodeTerbesar FROM bukutamu");
+// mangambil data barang dari tabel dengan kode tarbesar
+$query = mysqli_query($koneksi, "SELECT max(id_tamu) as kodeTerbesar From buku_tamu");
 $data = mysqli_fetch_array($query);
 $kodeTamu = $data['kodeTerbesar'];
 
+// mengambil angka dari kode barang terbesar
 $urutan = (int) substr($kodeTamu, 2, 3);
 
+//nomor yang diambil akan bertambah 1 dan menentukan urutannya
 $urutan++;
 
+//membuat kode barang baru
 $huruf = "zt";
 $kodeTamu = $huruf . sprintf("%03s", $urutan);
 ?>
@@ -103,47 +109,49 @@ $kodeTamu = $huruf . sprintf("%03s", $urutan);
         </button>
       </div>
       <div class="modal-body">
-        <form action="" method="post">
-          <input type="hidden" name="id_tamu" id="id_tamu" value="<?= $kodeTamu ?>">
-          <div class="form-group row">
-            <label for="nama_tamu" class="col-sm-3 col-form-label">Nama Tamu</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="nama_tamu" name="nama_tamu">
+        <div class="modal-body">
+          <form method="post" action="">
+            <input type="hidden" name="id_tamu" id="id_tamu" value="<?= $kodeTamu ?>">
+            <div class="form-group row">
+              <label for="nama_tamu" class="col-sm-3 col-form-label">Nama Tamu</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="nama_tamu" name="nama_tamu">
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
-            <div class="col-sm-8">
-              <textarea class="form-control" name="alamat" id="alamat"></textarea>
+            <div class="form-group row">
+              <label for="alamat" class="col-sm-3 col-form-label">Alamat</label>
+              <div class="col-sm-8">
+                <textarea class="form-control" id="alamat" name="alamat"></textarea>
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="no_hp" class="col-sm-3 col-form-label">No. Telepon</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="no_hp" name="no_hp">
+            <div class="form-group row">
+              <label for="no_hp" class="col-sm-3 col-form-label">No. Telepon</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="no_hp" name="no_hp">
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="bertemu" class="col-sm-3 col-form-label">Bertemu dg. </label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="bertemu" name="bertemu">
+            <div class="form-group row">
+              <label for="bertemu" class="col-sm-3 col-form-label">Bertemu dg. </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="bertemu" name="bertemu">
+              </div>
             </div>
-          </div>
-          <div class="form-group row">
-            <label for="kepentingan" class="col-sm-3 col-form-label">Kepentingan</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="kepentingan" name="kepentingan">
+            <div class="form-group row">
+              <label for="kepentingan" class="col-sm-3 col-form-label">Kepentingan</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="kepentingan" name="kepentingan">
+              </div>
             </div>
-          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
         <button type="submit" name="simpan" class="btn btn-primary">Simpan</button>
       </div>
-      </form>
     </div>
   </div>
-</div>
+  </form>
+
 <?php
 include_once('templates/footer.php');
 ?>
