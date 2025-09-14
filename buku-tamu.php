@@ -1,6 +1,11 @@
 <?php
 require_once('function.php');
 include_once('templates/header.php');
+
+if (($_SESSION['role']) != 'operator') {
+  echo "<script>alert('Anda tidak memiliki akses')</script>";
+  echo "<script>window.location.href='index.php'</script>";
+}
 ?>
 
 <!--a Begin Page Content -->
@@ -54,19 +59,19 @@ include_once('templates/header.php');
           </thead>
           <tbody>
             <?php
-              $no = 1;
+            $no = 1;
 
-              $buku_tamu = query("SELECT * FROM buku_tamu");
-              foreach ($buku_tamu as $tamu) : ?>
-               <tr>
-                 <td><?= $no++; ?></td>
-                 <td><?= $tamu['tanggal'] ?></td>
-                 <td><?= $tamu['nama_tamu'] ?></td>
-                 <td><?= $tamu['alamat'] ?></td>
-                 <td><?= $tamu['no_hp'] ?></td>
-                 <td><?= $tamu['bertemu'] ?></td>
-                 <td><?= $tamu['kepentingan'] ?></td>
-                 <td>
+            $buku_tamu = query("SELECT * FROM buku_tamu");
+            foreach ($buku_tamu as $tamu) : ?>
+              <tr>
+                <td><?= $no++; ?></td>
+                <td><?= $tamu['tanggal'] ?></td>
+                <td><?= $tamu['nama_tamu'] ?></td>
+                <td><?= $tamu['alamat'] ?></td>
+                <td><?= $tamu['no_hp'] ?></td>
+                <td><?= $tamu['bertemu'] ?></td>
+                <td><?= $tamu['kepentingan'] ?></td>
+                <td>
                   <a class="btn btn-success" href="edit-tamu.php?id=<?= $tamu['id_tamu'] ?>">Ubah</a>
                   <a onclick="confirm('apakah anda yakin ingin menghaous data ini?')" class="btn btn-danger" href="hapus-tamu.php?id=<?= $tamu['id_tamu'] ?>">Hapus</a>
                 </td>
@@ -152,6 +157,6 @@ $kodeTamu = $huruf . sprintf("%03s", $urutan);
   </div>
   </form>
 
-<?php
-include_once('templates/footer.php');
-?>
+  <?php
+  include_once('templates/footer.php');
+  ?>
